@@ -1,0 +1,57 @@
+/* signinStyles.css */
+@import url('matchedStyles.css');
+
+.sign-in-form {
+    max-width: 400px;
+    padding: 20px;
+    margin: 50px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    color: #333;
+}
+
+.sign-in-form h2 {
+    text-align: center;
+    color: #333;
+}
+
+.sign-in-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-in-form label {
+    margin-bottom: 10px;
+}
+
+.sign-in-form input,
+.sign-in-form button {
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.sign-in-form button {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.sign-in-form button:hover {
+    background-color: #555;
+}
+
+.SignUp {
+    text-align: center;
+}
+
+.SignUp a {
+    color: rgb(55, 90, 228);
+}
+
+.SignUp a:hover {
+    background-color: rgb(79, 129, 209);
+    color: #fff;
+}

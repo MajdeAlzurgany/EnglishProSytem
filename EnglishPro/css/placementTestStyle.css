@@ -1,0 +1,29 @@
+/* placementTestStyle.css */
+@import url('matchedStyles.css');
+
+main {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 20px auto;
+    border-radius: 10px;
+    max-width: 800px;
+}
+
+main h2 {
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.question p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question label {
+    margin-right: 20px;
+}
