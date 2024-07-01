@@ -87,7 +87,7 @@ class User {
                 // Get the inserted user ID
                 $userID = $db->getLastInsertId(); 
                 // Store the new user object in the session
-                $_SESSION['user'] = new Student($userID, $username, $userType, $email, $password, $age, $phoneNumber, NULL, 0, $name);
+                $_SESSION['user'] = new Student($userID, $username, $userType, $email, $password, $age, $phoneNumber, NULL, 0, $name); //..
             }
     
             return $result;
