@@ -39,10 +39,8 @@ if (!isset($_SESSION['user'])) {
         
         <main>
             <form action="../api/placment_test.php" method="post">
-                <?php if(isset($_SESSION['from_signup']) && $_SESSION['from_signup'] === true) : ?>
                     <input type="hidden" name="action" value="take_placement_test">
                     <button type="submit" class="btn">Start Placement Test</button>
-                <?php endif; ?>
             </form>
         </main>
 
