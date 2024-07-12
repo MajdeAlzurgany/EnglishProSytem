@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Save test results to the database
             $db = new Database();
             $db->establishConnection();
-            $query1 = "INSERT INTO userPlacementTest (userid, placementTestId, score) VALUES ('" . $student->getUserID() . "', '" . $placementTest->getPlacementTestId() . "', '$score')";
+            $query1 = "INSERT INTO userPlacementTest (userid, placementTestId, score) VALUES ('" . $student->getUserID() . "', '" . $placementTest->getTestId() . "', '$score')";
             $db->query_exexute($query1);
 
             // Update user's level
@@ -57,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Update session user level
             $student->updateLevel($newLevel);
             $_SESSION['user'] = $student;
-            $_SESSION['from_signup'] = false;
             header("Location: ../interfaces/index.php");
             exit();
         } catch (Exception $e) {
