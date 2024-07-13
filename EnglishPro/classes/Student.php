@@ -1,4 +1,5 @@
 <?php
+
 require_once 'User.php';
 require_once 'PlacementTest.php';
 
@@ -42,6 +43,26 @@ class Student extends User {
                 return $user['level'];
             } else {
                 throw new Exception("User not found or unable to retrieve level.");
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        } finally {
+            $db->closeConnection();
+        }
+    }
+
+    public function getPlacementStatus($userid){
+        // Database interaction
+        $db = new Database();
+        $db->establishConnection();
+        $query = "SELECT * FROM users WHERE userid= '$userid'";
+        $result = $db->query_exexute($query);
+        try {
+            if ($result && $result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+                return $user['has_taken_placement_test'];
+            } else {
+                throw new Exception("User not found");
             }
         } catch (Exception $e) {
             echo $e->getMessage();

@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = User::register($username, $userType, $email, $password, $age, $phoneNumber, $name);
             if ($result) {
                 // Redirect to the main page if success
-                $_SESSION['from_signup'] = true;
                 header("Location: ../interfaces/index.php");
                 exit();
             } else {

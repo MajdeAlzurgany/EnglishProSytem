@@ -1,6 +1,7 @@
 <?php 
 require_once '../classes/User.php';
 require_once '../classes/Student.php';
+require_once '../classes/Course.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -13,8 +14,9 @@ if (!isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/Style.css">
     <link rel="stylesheet" href="../css/matchedStyles.css">
+    <link rel="stylesheet" href="../css/Style.css">
+    <link rel="stylesheet" href="../css/lessonsStyle.css">
     <title>EnglishPro</title>
 </head>
 <body>
@@ -23,7 +25,7 @@ if (!isset($_SESSION['user'])) {
             <h1><a href="index.php">EnglishPro</a></h1>
             <div class="user-info">
                 <?php
-                    echo '<span>Welcome ' . $_SESSION['user']->getUsername() . ",   Current Level : ". $_SESSION['user']->getLevel() .  '</span>';
+                    echo '<span>Welcome ' . $_SESSION['user']->getUsername() . ", Current Level: " . $_SESSION['user']->getLevel() . '</span>';
                 ?>
                 <a href="#" class="personal-info">Edit profile</a>
                 <a href="../api/logout.php" class="logout-button">Log Out</a>
@@ -34,19 +36,29 @@ if (!isset($_SESSION['user'])) {
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="#">About Us</a></li>
-                <li><a href="showLessons.php">My Lessons</a></li>
+                <li><a href="showLessons.php">Course</a></li>
             </ul>
         </nav>
         
         <main>
-            <form action="../api/placment_test.php" method="post">
-                <input type="hidden" name="action" value="take_placement_test">
-                <?php
-                    if($_SESSION['user']->getPlacementStatus($_SESSION['user']->getUserID()) != 1){
-                        echo "<button type='submit' class='btn'>Start Placement Test</button>";
-                    }   
-                ?>
-            </form>
+            <h2>Course</h2>
+            <?php
+                $levelId = $_SESSION['user']->getLevel();
+                $course = Course::getCourseByLevel($levelId);
+                if ($course) {
+                    echo "<div class='course'>";
+                    echo "<h3>" . $course->getCourseName() . "</h3>";
+                    foreach ($course->getLessons() as $lesson) {
+                        echo "<div class='lesson'>";
+                        echo "<p>" . $lesson->getTitle() . "</p>";
+                        echo "<a href='" . $lesson->getFilePath() . "' target='_blank'>View PDF</a>";
+                        echo "</div>";
+                    }
+                    echo "</div>";
+                } else {
+                    echo "<p>No course found for the current level.</p>";
+                }
+            ?>
         </main>
 
         <footer>
@@ -61,8 +73,8 @@ if (!isset($_SESSION['user'])) {
                 &copy; 2024 Your Website. All rights reserved.
             </div>
             <p class="info">
-                <div>Phone number : 0919353046</div>
-                <div>Email : majde.zr@gmail.com </div>
+                <div>Phone number: 0919353046</div>
+                <div>Email: majde.zr@gmail.com</div>
                 <div>Company Location: Libya - Tripoli</div>
             </p>
         </footer>
