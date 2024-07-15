@@ -71,6 +71,26 @@ class Student extends User {
         }
     }
 
+    public function updatePoints($score) {
+        $db = new Database();
+        $db->establishConnection();
+
+        $query = "UPDATE users SET points = $score + $this->points WHERE userid = '$this->userID'";
+        $result = $db->query_exexute($query);
+
+        try{
+            if($result){
+                $this->points =  $score + $this->points;
+            }else {
+                throw new Exception("Error , score not updated.");
+            }
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }finally{
+            $db->closeConnection();
+        }
+    }
+
     // Getter methods
     public function getLevel() {
         return $this->level;

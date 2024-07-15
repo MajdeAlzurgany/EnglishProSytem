@@ -1,11 +1,13 @@
 <?php
 require_once 'Database.php';
+require_once 'Quiz.php';
 
 class Lesson {
     private $lessonId;
     private $courseId;
     private $title;
     private $filePath;
+    private $quiz;
 
     public function __construct($lessonId = null, $courseId = null, $title = null, $filePath = null) {
         $this->lessonId = $lessonId;
@@ -23,7 +25,9 @@ class Lesson {
             $result = $db->query_exexute($query);
     
             while ($row = $result->fetch_assoc()) {
-                $lessons[] = new Lesson($row['lessonId'], $row['courseId'], $row['title'], $row['filePath']);
+                $lesson = new Lesson($row['lessonId'], $row['courseId'], $row['title'], $row['filePath']);
+                $lesson->loadQuiz();
+                $lessons[] = $lesson;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -41,7 +45,9 @@ class Lesson {
             $result = $db->query_exexute($query);
 
             if ($row = $result->fetch_assoc()) {
-                return new Lesson($row['lessonId'], $row['courseId'], $row['title'], $row['filePath']);
+                $lesson = new Lesson($row['lessonId'], $row['courseId'], $row['title'], $row['filePath']);
+                $lesson->loadQuiz();
+                return $lesson;
             } else {
                 throw new Exception("Lesson not found.");
             }
@@ -50,6 +56,14 @@ class Lesson {
         } finally {
             $db->closeConnection();
         }
+    }
+
+    public function loadQuiz() {
+        $this->quiz = Quiz::getQuizByLessonId($this->lessonId);
+    }
+
+    public function getQuiz() {
+        return $this->quiz;
     }
 
     public function getFilePath() {

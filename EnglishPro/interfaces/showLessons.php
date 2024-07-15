@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once '../classes/User.php';
 require_once '../classes/Student.php';
 require_once '../classes/Course.php';
@@ -8,6 +8,15 @@ if (!isset($_SESSION['user'])) {
     header("Location: signin.php");
     exit(); 
 }
+try{
+    if($_SESSION['user']->getLevel()==null) {
+        throw new Exception("User have no level to show the lessons . try to take placement test");
+    }
+}catch(Exception $e){
+    echo $e->getMessage();
+    exit(0);
+}
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +61,18 @@ if (!isset($_SESSION['user'])) {
                         echo "<div class='lesson'>";
                         echo "<p>" . $lesson->getTitle() . "</p>";
                         echo "<a href='" . $lesson->getFilePath() . "' target='_blank'>View PDF</a>";
+                        if ($lesson->getQuiz()) {
+                            echo "<div class='quiz'>";
+                            echo "<h4>Quiz: " . $lesson->getQuiz()->getTitle() . "</h4>";
+                            echo "<form action='../api/quiz.php' method='post'>";
+                            echo "<input type='hidden' name='action' value='take_quiz'>";
+                            echo "<input type='hidden' name='lessonId' value='" . $lesson->getLessonId() . "'>";
+                            echo "<button type='submit' class='btn'>Take Quiz</button>";
+                            echo "</form>";
+                            echo "</div>";
+                        } else {
+                            echo "<p>No quiz available for this lesson.</p>";
+                        }
                         echo "</div>";
                     }
                     echo "</div>";

@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Update session user level
             $student->updateLevel($newLevel);
+            $student->updatePoints($score); //adding the score to the use's points
             $_SESSION['user'] = $student;
             header("Location: ../interfaces/index.php");
             exit();

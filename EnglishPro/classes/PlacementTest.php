@@ -3,6 +3,9 @@ require_once 'Database.php';
 require_once 'Test.php';
 
 class PlacementTest extends Test {
+    public function __construct($testId = null, $title = null) {
+        parent::__construct($testId, $title);
+    }
     public static function getPlacementTest($placementTestId) {
         $db = new Database();
         try {
