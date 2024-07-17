@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once 'EnglishPro/classes/Validation.php'; 
+require_once '../EnglishProSytem/EnglishPro/classes/Validation.php'; 
+require_once '../EnglishProSytem/EnglishPro/classes/Database.php'; 
+require_once '../EnglishProSytem/EnglishPro/classes/User.php'; 
 
 class ValidationTest extends TestCase {
 

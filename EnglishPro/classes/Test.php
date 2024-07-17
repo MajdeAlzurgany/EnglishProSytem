@@ -32,9 +32,10 @@ class Test {
         $score = 0;
         // Loop through each question and check the answer
         foreach ($this->questions as $index => $question) {
-            if ($answers[$index] == $question['answer']) {
-                $score++;
-            }
+            if (isset($answers[$index])){
+                if ($answers[$index] == $question['answer'])
+                    $score++;
+            }      
         }
         return $score;
     }

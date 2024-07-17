@@ -1,6 +1,6 @@
 <?php
-require_once '../classes/Database.php';
-require_once '../classes/Validation.php';
+require_once 'Database.php';
+require_once 'Validation.php';
 
 class User {
     protected $userID;
@@ -78,7 +78,7 @@ class User {
             }
     
             // Insert the new user into the database
-            $query = "INSERT INTO users (username, userType, email, password, age, phoneNumber, name, level, points, has_taken_placement_test) 
+            $query = "INSERT INTO users (username, userType, email, password, age, phonenumber, name, level, points, has_taken_placement_test) 
             VALUES ('$username', '$userType', '$email', '$password', '$age', '$phoneNumber', '$name', NULL, 0, FALSE)";
 
             $result = $db->query_exexute($query);
@@ -118,15 +118,15 @@ class User {
                 $userData = $result->fetch_assoc();
                 // Return a Student or User object based on userType
                 if ($userData['userType'] == 1) {
-                    return new Student($userData['userid'], $userData['username'], $userData['userType'], $userData['email'], $userData['password'], $userData['age'], $userData['phoneNumber'], $userData['level'], $userData['points'], $userData['name']);
+                    return new Student($userData['userid'], $userData['username'], $userData['userType'], $userData['email'], $userData['password'], $userData['age'], $userData['phonenumber'], $userData['level'], $userData['points'], $userData['name']);
                 } else {
-                    return new User($userData['userid'], $userData['username'], $userData['userType'], $userData['email'], $userData['password'], $userData['age'], $userData['phoneNumber'], $userData['name']);
+                    return new User($userData['userid'], $userData['username'], $userData['userType'], $userData['email'], $userData['password'], $userData['age'], $userData['phonenumber'], $userData['name']);
                 }
             } else {
                 throw new Exception("Invalid email or password. Please try again.");
             }
         } catch (Exception $e) {
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         } finally {
             if (isset($db)) {
                 $db->closeConnection();
@@ -146,57 +146,10 @@ class User {
             // Check if a user was found
             if ($result->num_rows > 0) {
                 $userData = $result->fetch_assoc();
-                return new User($userData['userid'], $userData['username'], $userData['userType'], $userData['email'], $userData['password'], $userData['age'], $userData['phoneNumber'], $userData['name']);
+                return new User($userData['userid'], $userData['username'], $userData['userType'], $userData['email'], $userData['password'], $userData['age'], $userData['phonenumber'], $userData['name']);
             }
             return null;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        } finally {
-            if (isset($db)) {
-                $db->closeConnection();
-            }
-        }
-    }
-
-    // Method to update the user's profile
-    public function updateProfile($username, $email, $password, $age, $phoneNumber, $name, $level, $points) {
-        $db = new Database();
-        try {
-            // Validate and sanitize the input data
-            $username = Validation::sanitizeAndValidateUsername($username);
-            $email = Validation::validateEmail($email);
-            $password = Validation::validatePassword($password);
-            $age = Validation::validateAge($age);
-            $phoneNumber = Validation::validatePhoneNumber($phoneNumber);
-            $name = Validation::validateName($name);
-    
-            $db->establishConnection();
-            // Update the user's profile in the database
-            $query = "UPDATE users SET username = '$username', email = '$email', password = '$password', age = '$age', phoneNumber = '$phoneNumber', name = '$name', level = '$level', points = '$points' WHERE userID = '$this->userID'";
-            $result = $db->query_exexute($query);
-    
-            return $result;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        } finally {
-            if (isset($db)) {
-                $db->closeConnection();
-            }
-        }
-    }
-
-    // Method to delete the user's profile
-    public function deleteProfile() {
-        $db = new Database();
-        try {
-            $db->establishConnection();
-            $query1 = "DELETE FROM userPlacementTest WHERE userID = '$this->userID'";
-            $result = $db->query_exexute($query1);
-            $query2 = "DELETE FROM users WHERE userID = '$this->userID'";
-            $result=$db->query_exexute($query2);
-            return $result;
-        } catch (Exception $e) {
-            // Throw an exception if there is an error
             throw new Exception($e->getMessage());
         } finally {
             if (isset($db)) {

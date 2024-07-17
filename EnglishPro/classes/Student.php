@@ -45,7 +45,7 @@ class Student extends User {
                 throw new Exception("User not found or unable to retrieve level.");
             }
         } catch (Exception $e) {
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         } finally {
             $db->closeConnection();
         }
@@ -65,7 +65,7 @@ class Student extends User {
                 throw new Exception("User not found");
             }
         } catch (Exception $e) {
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         } finally {
             $db->closeConnection();
         }
@@ -85,10 +85,27 @@ class Student extends User {
                 throw new Exception("Error , score not updated.");
             }
         }catch(Exception $e){
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         }finally{
             $db->closeConnection();
         }
+    }
+    public function getQuizStatus($lessonId) {
+        $db = new Database();
+        $db->establishConnection();
+
+        $query = "SELECT * FROM userquiz uq 
+                  JOIN quizzes q ON uq.quizId = q.quizId 
+                  WHERE uq.userId = '$this->userID' AND q.lessonId = '$lessonId'";
+        $result = $db->query_exexute($query);
+
+        $status = false;
+        if ($result && $result->num_rows > 0) {
+            $status = true; // Quiz has been taken
+        }
+
+        $db->closeConnection();
+        return $status;
     }
 
     // Getter methods

@@ -65,9 +65,13 @@ try{
                             echo "<div class='quiz'>";
                             echo "<h4>Quiz: " . $lesson->getQuiz()->getTitle() . "</h4>";
                             echo "<form action='../api/quiz.php' method='post'>";
-                            echo "<input type='hidden' name='action' value='take_quiz'>";
-                            echo "<input type='hidden' name='lessonId' value='" . $lesson->getLessonId() . "'>";
-                            echo "<button type='submit' class='btn'>Take Quiz</button>";
+                            if (!$_SESSION['user']->getQuizStatus($lesson->getLessonId())) {
+                                echo "<input type='hidden' name='action' value='take_quiz'>";
+                                echo "<input type='hidden' name='lessonId' value='" . $lesson->getLessonId() . "'>";
+                                echo "<button type='submit' class='btn'>Take Quiz</button>";
+                            } else {
+                                echo "<button type='button' class='taked' disabled>YOU HAVE DONE IT</button>";
+                            }
                             echo "</form>";
                             echo "</div>";
                         } else {
