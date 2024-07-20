@@ -11,7 +11,7 @@ class Test {
         $this->questions = [];
     }
 
-    // Method to load questions for the test
+    // Method to load questions for the test , the $field is used to detrmine which type of question 
     public function loadQuestions($field) {
         $db = new Database();
         try {
@@ -30,7 +30,7 @@ class Test {
     }
     public function evaluateTest($answers) {
         $score = 0;
-        // Loop through each question and check the answer
+        // Loop through each question's sulotions  and check the answer of student
         foreach ($this->questions as $index => $question) {
             if (isset($answers[$index])){
                 if ($answers[$index] == $question['answer'])

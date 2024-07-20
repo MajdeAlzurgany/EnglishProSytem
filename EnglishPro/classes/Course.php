@@ -9,12 +9,12 @@ class Course {
     private $lessons = [];
 
     public function __construct($courseId = null, $levelId = null, $courseName = null) {
-        $this->courseId = $courseId;
+        $this->courseId = $courseId; 
         $this->levelId = $levelId;
         $this->courseName = $courseName;
     }
 
-    public static function getCourseByLevel($levelId) {
+    public static function getCourseByLevel($levelId) { //getting the course along with it's lessons from database by level id 
         $db = new Database();
         try {
             $db->establishConnection();
@@ -22,8 +22,8 @@ class Course {
             $result = $db->query_exexute($query);
 
             if ($row = $result->fetch_assoc()) {
-                $course = new Course($row['courseId'], $row['levelId'], $row['courseName']);
-                $course->loadLessons();
+                $course = new Course($row['courseId'], $row['levelId'], $row['courseName']); //creating the course object
+                $course->loadLessons(); //loading the questions
                 return $course;
             } else {
                 throw new Exception("Course not found for the given level.");

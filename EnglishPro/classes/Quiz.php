@@ -10,7 +10,7 @@ class Quiz extends Test {
         $this->lessonId = $lessonId;
     }
 
-    public static function getQuizByLessonId($lessonId) {
+    public static function getQuizByLessonId($lessonId) { //fething the quiz from DB by the lesson id
         $db = new Database();
         try {
             $db->establishConnection();
@@ -19,7 +19,7 @@ class Quiz extends Test {
 
             if ($row = $result->fetch_assoc()) {
                 $quiz = new Quiz($row['quizId'], $row['lessonId'], $row['title']);
-                $quiz->loadQuestions('quizId');
+                $quiz->loadQuestions('quizId'); //loading the questions from db accordin to the testid stored in the obj quiz 
                 return $quiz;
             } else {
                 throw new Exception("Quiz not found for the given lesson.");
@@ -31,7 +31,7 @@ class Quiz extends Test {
         }
     }
 
-    public function getLessonId() {
+    public function getLessonId() { //return lesson id
         return $this->lessonId;
     }
 }

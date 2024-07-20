@@ -16,7 +16,7 @@ class Lesson {
         $this->filePath = $filePath;
     }
 
-    public static function getLessonsByCourseId($courseId) {
+    public static function getLessonsByCourseId($courseId) { //returns all lessons of the course id from databse
         $db = new Database();
         $lessons = [];
         try {
@@ -37,7 +37,7 @@ class Lesson {
         return $lessons;
     }
 
-    public static function getLessonById($lessonId) {
+    public static function getLessonById($lessonId) {//returns a lesson from database and store it in object 
         $db = new Database();
         try {
             $db->establishConnection();
@@ -58,10 +58,10 @@ class Lesson {
         }
     }
 
-    public function loadQuiz() {
+    public function loadQuiz() { //loading the quiz for specific lesson nby lesson id 
         $this->quiz = Quiz::getQuizByLessonId($this->lessonId);
     }
-
+//getters
     public function getQuiz() {
         return $this->quiz;
     }

@@ -51,7 +51,7 @@ class Student extends User {
         }
     }
 
-    public function getPlacementStatus($userid){
+    public function getPlacementStatus($userid){ //function to check from db if the student has taken the placement test before or not
         // Database interaction
         $db = new Database();
         $db->establishConnection();
@@ -60,7 +60,7 @@ class Student extends User {
         try {
             if ($result && $result->num_rows > 0) {
                 $user = $result->fetch_assoc();
-                return $user['has_taken_placement_test'];
+                return $user['has_taken_placement_test']; 
             } else {
                 throw new Exception("User not found");
             }
@@ -71,7 +71,7 @@ class Student extends User {
         }
     }
 
-    public function updatePoints($score) {
+    public function updatePoints($score) { //function to add points after each scores
         $db = new Database();
         $db->establishConnection();
 
@@ -90,7 +90,7 @@ class Student extends User {
             $db->closeConnection();
         }
     }
-    public function getQuizStatus($lessonId) {
+    public function getQuizStatus($lessonId) { //to check if the user has taken the quiz before or not
         $db = new Database();
         $db->establishConnection();
 
